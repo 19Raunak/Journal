@@ -1,30 +1,47 @@
 // dbConfig.js
-const Database = require("better-sqlite3");
+const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
 
-// Create or open database file in the project root
-const db = new Database(path.join(__dirname, "journal.db"));
+// Database file path (stored in project folder)
+const dbPath = path.resolve(__dirname, "database.sqlite");
 
-// Ensure users & tasks tables exist
-db.prepare(`
+// Connect to database
+const db = new sqlite3.Database(dbPath, (err) => {
+  if (err) {
+    console.error("❌ Failed to connect to SQLite database:", err.message);
+  } else {
+    console.log("✅ Connected to SQLite database at", dbPath);
+  }
+});
+
+// Create Users table
+db.run(`
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL
+    password TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   )
-`).run();
+`, (err) => {
+  if (err) console.error("❌ Error creating users table:", err.message);
+  else console.log("✅ Users table ready");
+});
 
-db.prepare(`
+// Create Tasks table
+db.run(`
   CREATE TABLE IF NOT EXISTS tasks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
-    task_h TEXT,
+    task_h TEXT NOT NULL,
     task_desc TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    completed INTEGER DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
   )
-`).run();
+`, (err) => {
+  if (err) console.error("❌ Error creating tasks table:", err.message);
+  else console.log("✅ Tasks table ready");
+});
 
-// Export db instance directly
 module.exports = db;
