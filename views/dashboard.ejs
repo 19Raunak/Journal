@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+  <div class="container">
+    <header class="dashboard-header">
+      <h1>Hello, <%= user.charAt(0).toUpperCase() + user.slice(1) %></h1>
+      <nav class="links">
+        <a href="/users/todo">Add Tasks</a>
+        <a href="/users/logout">Logout</a>
+      </nav>
+    </header>
+
+    <!-- Tasks Section -->
+    <section class="task-section">
+      <h2>Your Tasks</h2>
+      <ul class="task-list">
+        <% if (!tasks || tasks.length === 0) { %>
+          <li class="no-tasks">No tasks yet. Add one!</li>
+        <% } else { %>
+          <% tasks.forEach(task => { %>
+            <li>
+              <strong><%= task.task_h %></strong> — <%= task.task_desc %>
+              <small>(Created at: <%= task.created_at %>)</small>
+            </li>
+          <% }) %>
+        <% } %>
+      </ul>
+
+
+
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2025 Journal. Made by<a href="https://github.com/19Raunak">Raunak Tiwari.</p>
+  </footer>
+</body>
+</html>

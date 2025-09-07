@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Todo</title>
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome, <%= user %>!</h1>
+
+    <!-- Form to create a new task -->
+    <section class="form-section">
+      <h2>Add Task</h2>
+      <form action="/users/todo" method="POST" class="form">
+        <div class="input-group">
+          <textarea
+            name="task_h"
+            placeholder="Task Title"
+            class="input-text"
+          ></textarea>
+        </div>
+        <div class="input-group">
+          <textarea
+            name="task_desc"
+            placeholder="Describe your task"
+            class="input-text"
+            required
+          ></textarea>
+        </div>
+        <button type="submit" class="btn">Add Task</button>
+      </form>
+      <a href="/users/dashboard" class="link">⬅ Back to Dashboard</a>
+    </section>
+
+    <!-- List of user's tasks -->
+    <section class="task-section">
+      <h2>Your Tasks</h2>
+      <ul class="task-list">
+        <% if (tasks.length === 0) { %>
+          <li class="no-tasks">No tasks yet. Add one above!</li>
+        <% } else { %>
+          <% tasks.forEach(task => { %>
+            <li class="task">
+              <h3><%= task.task_h %></h3>
+              <p><%= task.task_desc %></p>
+              <span class="timestamp">Created at: <%= task.created_at %></span>
+            </li>
+          <% }) %>
+        <% } %>
+      </ul>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2025 Journal. Made by<a href="https://github.com/19Raunak">Raunak Tiwari.</p>
+  </footer>
+</body>
+</html>
