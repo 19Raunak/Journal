@@ -1,12 +1,6 @@
 const express = require('express');
 const app = express();
-<<<<<<< HEAD
-const db = require("./dbConfig");
-console.log("DB type:", typeof db, db.constructor.name);
-const PORT = process.env.PORT || 3000;
-=======
 const db = require("./dbConfig"); // updated for sqlite3
->>>>>>> Switched from better-sqlit3 to sqlite3
 const bcrypt = require("bcryptjs");
 const session = require("express-session");
 const flash = require("express-flash");
@@ -154,10 +148,6 @@ function checkNotAuthenticated(req, res, next) {
   res.redirect("/users/login");
 }
 
-<<<<<<< HEAD
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-=======
 // ------------------ START SERVER ------------------
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
->>>>>>> Switched from better-sqlit3 to sqlite3
